@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Macro Checker</string>
+    <string name="calories">Daily Calories</string>
+    <string name="coach">Your private coach</string>
+    <string name="action_save">save</string>
+    <string name="meals">Meals</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="start">Ok</string>
+    <string name="meal_notification">Notifications about your meals</string>
+    <string name="notifyTitle">Amount of calories</string>
+    <string name="countdownValue">Time</string>
+    <string name="notifyBody">The name of the meal</string>
+    <string name="add_calories">Add calories</string>
+    <string name="change_calories">Change Limit</string>
+    <string name="current_calories">Current Calories</string>
+    <string name="calories_limit">Change Limit</string>
+</resources>
