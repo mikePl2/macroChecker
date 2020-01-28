@@ -15,4 +15,9 @@
     <string name="change_calories">Change Limit</string>
     <string name="current_calories">Current Calories</string>
     <string name="calories_limit">Change Limit</string>
+    <string name="reset_current_calories">Reset calories</string>
+
+    <string name="caloriesAmount">com.example.myapplication.caloriesamount</string>
+    <string name="caloriesLimit">com.example.myapplication.calorieslimit</string>
+
 </resources>
