@@ -11,11 +11,11 @@
     <string name="notifyTitle">Amount of calories</string>
     <string name="countdownValue">Time</string>
     <string name="notifyBody">The name of the meal</string>
-    <string name="add_calories">Add calories</string>
+    <string name="add_calories">Add</string>
     <string name="change_calories">Change Limit</string>
     <string name="current_calories">Current Calories</string>
     <string name="calories_limit">Change Limit</string>
-    <string name="reset_current_calories">Reset calories</string>
+    <string name="reset_current_calories">Reset</string>
 
     <string name="caloriesAmount">com.example.myapplication.caloriesamount</string>
     <string name="caloriesLimit">com.example.myapplication.calorieslimit</string>

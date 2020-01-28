@@ -104,16 +104,12 @@ public class CaloriesActivity extends AppCompatActivity {
 
     //Functions responsible for adding calories to current state
     private void updateCaloriesAmount() {
-        caloriesAmountTv.setText(String.format("%s calories", caloriesAmountInt));
-
-
-        int currentCalories = Integer.parseInt(SP_CurrentCalories);
-        int LimitOfCalories = Integer.parseInt(SP_LimitOfCalories);
-            if(currentCalories>LimitOfCalories) {
-                Toast.makeText(this, "You exceed caloric demand! Eat less if you want to lose weight", Toast.LENGTH_LONG).show();
-           }
-
-
+        caloriesAmountTv.setText(String.format("%s", caloriesAmountInt));
+//        int currentCalories = Integer.parseInt(SP_CurrentCalories);
+//        int LimitOfCalories = Integer.parseInt(SP_LimitOfCalories);
+//            if(currentCalories>LimitOfCalories) {
+//                Toast.makeText(this, "You exceed caloric demand! Eat less if you want to lose weight", Toast.LENGTH_LONG).show();
+//           }
     }
     public void addCalories()
     {
@@ -123,8 +119,9 @@ public class CaloriesActivity extends AppCompatActivity {
             int sumToAdd = Integer.parseInt(value.toString());
             int i = Integer.parseInt(SP_CurrentCalories);
 
-            if(caloriesAmountInt == 0)
-            caloriesAmountInt = sumToAdd + caloriesAmountInt+i;
+            if(caloriesAmountInt == 0) {
+                caloriesAmountInt = sumToAdd + caloriesAmountInt + i;
+            }
             else
             {
                 caloriesAmountInt = sumToAdd + caloriesAmountInt;
@@ -137,7 +134,7 @@ public class CaloriesActivity extends AppCompatActivity {
     //Functions responsible for changing limits of calories
     private void updateLimit()
     {
-        caloriesLimitTv.setText((String.format("%s calories", caloriesLimitInt)));
+        caloriesLimitTv.setText((String.format("%s", caloriesLimitInt)));
 
     }
     private void changeLimit()
@@ -202,10 +199,12 @@ public class CaloriesActivity extends AppCompatActivity {
     public void resetCurrentCalories()
     {
         final SharedPreferences sharedPrefs_1 = getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, Context.MODE_PRIVATE);
-        sharedPrefs_1.edit().clear().commit();
+        //sharedPrefs_1.edit().clear().commit();
+        SharedPreferences.Editor editor = sharedPrefs_1.edit();
+        editor.clear();
+        editor.commit();
         caloriesAmountInt = 0;
         caloriesAmountTv.setText("0");
-
     }
 
 }

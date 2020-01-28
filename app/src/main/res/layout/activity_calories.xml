@@ -9,20 +9,20 @@
 
     <Button
         android:id="@+id/add_calories"
-        android:layout_width="76dp"
-        android:layout_height="69dp"
+        android:layout_width="103dp"
+        android:layout_height="59dp"
         android:text="@string/add_calories"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintHorizontal_bias="0.974"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintVertical_bias="0.052" />
 
     <Button
         android:id="@+id/change_calories_limit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="103dp"
+        android:layout_height="59dp"
         android:text="@string/change_calories"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,49 +42,53 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintVertical_bias="0.042" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/caloriesLimitTiet"
-        android:layout_width="147dp"
-        android:layout_height="69dp"
+        android:layout_width="158dp"
+        android:layout_height="72dp"
         android:hint="@string/calories_limit"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.344"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.273" />
+        app:layout_constraintVertical_bias="0.211" />
 
     <TextView
         android:id="@+id/currentCalories"
-        android:layout_width="148dp"
-        android:layout_height="58dp"
+        android:layout_width="111dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:text="@string/current_calories"
+        android:textSize="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.471" />
+        app:layout_constraintVertical_bias="0.475" />
 
     <TextView
         android:id="@+id/caloriesLimitTv"
-        android:layout_width="166dp"
-        android:layout_height="64dp"
+        android:layout_width="147dp"
+        android:layout_height="62dp"
         android:text="@string/calories_limit"
+        android:textSize="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.832"
+        app:layout_constraintHorizontal_bias="0.934"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.475" />
 
     <Button
         android:id="@+id/reset_current_calories_btn"
-        android:layout_width="92dp"
-        android:layout_height="79dp"
+        android:layout_width="94dp"
+        android:layout_height="64dp"
         android:text="@string/reset_current_calories"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
