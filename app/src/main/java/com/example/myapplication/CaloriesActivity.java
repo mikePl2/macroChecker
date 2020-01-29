@@ -54,9 +54,6 @@ public class CaloriesActivity extends AppCompatActivity {
 
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +78,16 @@ public class CaloriesActivity extends AppCompatActivity {
 
         //Edit your daily limit
         caloriesLimitTiet = findViewById(R.id.caloriesLimitTiet);
+
+
+        //Reset o calories
+        resetCurrentCaloriesBtn = findViewById(R.id.reset_current_calories_btn);
+        resetCurrentCaloriesBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                resetCurrentCalories();
+            }
+        });
+
         changeCaloriesLimitBtn = findViewById(R.id.change_calories_limit_btn);
         changeCaloriesLimitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,17 +97,15 @@ public class CaloriesActivity extends AppCompatActivity {
                 saveDataCaloriesLimit();
             }
         });
-        resetCurrentCaloriesBtn = findViewById(R.id.reset_current_calories_btn);
-        resetCurrentCaloriesBtn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                resetCurrentCalories();
-            }
-        });
+
         loadDataCaloriesLimit();
         updateViewCaloriesLimit();
         loadDataCurrentCalories();
         updateCurrentCalories();
     }
+
+
+
 
     //Functions responsible for adding calories to current state
     private void updateCaloriesAmount() {
@@ -120,7 +125,7 @@ public class CaloriesActivity extends AppCompatActivity {
             int i = Integer.parseInt(SP_CurrentCalories);
 
             if(caloriesAmountInt == 0) {
-                caloriesAmountInt = sumToAdd + caloriesAmountInt + i;
+                caloriesAmountInt = caloriesAmountInt + sumToAdd + i;
             }
             else
             {
@@ -199,12 +204,11 @@ public class CaloriesActivity extends AppCompatActivity {
     public void resetCurrentCalories()
     {
         final SharedPreferences sharedPrefs_1 = getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, Context.MODE_PRIVATE);
-        //sharedPrefs_1.edit().clear().commit();
         SharedPreferences.Editor editor = sharedPrefs_1.edit();
-        editor.clear();
-        editor.commit();
+        editor.clear().apply();
+        SP_CurrentCalories = sharedPrefs_1.getString(TEXTCURRENTCALORIES, "0");
         caloriesAmountInt = 0;
-        caloriesAmountTv.setText("0");
+        caloriesAmountTv.setText(SP_CurrentCalories);
     }
 
 }
