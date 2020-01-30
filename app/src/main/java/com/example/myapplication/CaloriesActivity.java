@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,7 +52,11 @@ public class CaloriesActivity extends AppCompatActivity {
     public static final String TEXTLIMITCALORIES = "text_1";
 
     private String SP_LimitOfCalories;
-    private String SP_CurrentCalories;
+
+
+    private int mCaloriesToAdd;
+    private int mCaloriesTotal;
+    private int mCaloriesLimit;
 
 
 
@@ -68,7 +74,6 @@ public class CaloriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 addCalories();
-                updateCaloriesAmount();
                 saveDataCurrentCalories();
 
             }
@@ -102,38 +107,33 @@ public class CaloriesActivity extends AppCompatActivity {
         updateViewCaloriesLimit();
         loadDataCurrentCalories();
         updateCurrentCalories();
+
+        setup();
+    }
+
+    private void setup() {
+        // inicjalizujesz wszystko z preferencji oprocz wpisanego
+        // ustawiasz widoki na podstawie wartosci
     }
 
 
 
-
-    //Functions responsible for adding calories to current state
-    private void updateCaloriesAmount() {
-        caloriesAmountTv.setText(String.format("%s", caloriesAmountInt));
-//        int currentCalories = Integer.parseInt(SP_CurrentCalories);
-//        int LimitOfCalories = Integer.parseInt(SP_LimitOfCalories);
-//            if(currentCalories>LimitOfCalories) {
-//                Toast.makeText(this, "You exceed caloric demand! Eat less if you want to lose weight", Toast.LENGTH_LONG).show();
-//           }
-    }
     public void addCalories()
     {
         Editable value = initialCaloriesTiet.getText();
         if(value != null && !value.toString().isEmpty())
         {
             int sumToAdd = Integer.parseInt(value.toString());
-            int i = Integer.parseInt(SP_CurrentCalories);
+            int newCaloriesAmount = sumToAdd + caloriesAmountInt;
+            caloriesAmountInt = newCaloriesAmount;
 
-            if(caloriesAmountInt == 0) {
-                caloriesAmountInt = caloriesAmountInt + sumToAdd + i;
+            Log.d("dupa", String.format("max: %s, text: %s, new: %s", caloriesLimitInt, value.toString(), newCaloriesAmount));
+            if (caloriesAmountInt > caloriesLimitInt) {
+
+                Toast.makeText(this, "You exceed caloric demand! Eat less if you want to lose weight", Toast.LENGTH_SHORT).show();
             }
-            else
-            {
-                caloriesAmountInt = sumToAdd + caloriesAmountInt;
-            }
-            return;
+            caloriesAmountTv.setText(String.valueOf(caloriesAmountInt));
         }
-        caloriesAmountInt = 0;
     }
 
     //Functions responsible for changing limits of calories
@@ -168,8 +168,7 @@ public class CaloriesActivity extends AppCompatActivity {
     {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT, MODE_PRIVATE);
         SP_LimitOfCalories = sharedPreferences.getString(TEXTLIMITCALORIES, "0");
-
-
+        caloriesLimitInt = Integer.parseInt(SP_LimitOfCalories);
     }
 
     public void updateViewCaloriesLimit()
@@ -191,13 +190,13 @@ public class CaloriesActivity extends AppCompatActivity {
     {
 
         SharedPreferences sharedPreferences= getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, MODE_PRIVATE);
-        SP_CurrentCalories = sharedPreferences.getString(TEXTCURRENTCALORIES, "0");
-
+        String currentAmount = sharedPreferences.getString(TEXTCURRENTCALORIES, "0");
+        caloriesAmountInt = Integer.parseInt(currentAmount);
     }
 
     public void updateCurrentCalories()
     {
-        caloriesAmountTv.setText(SP_CurrentCalories);
+        caloriesAmountTv.setText(String.valueOf(caloriesAmountInt));
     }
 
 
@@ -205,10 +204,10 @@ public class CaloriesActivity extends AppCompatActivity {
     {
         final SharedPreferences sharedPrefs_1 = getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs_1.edit();
-        editor.clear().apply();
-        SP_CurrentCalories = sharedPrefs_1.getString(TEXTCURRENTCALORIES, "0");
+        editor.putString(TEXTCURRENTCALORIES, "0");
+        editor.commit();
         caloriesAmountInt = 0;
-        caloriesAmountTv.setText(SP_CurrentCalories);
+        caloriesAmountTv.setText(String.valueOf(caloriesAmountInt));
     }
 
 }
