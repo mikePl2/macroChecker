@@ -1,29 +1,14 @@
 package com.example.myapplication;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 
 
 public class CaloriesActivity extends AppCompatActivity {
@@ -126,8 +111,8 @@ public class CaloriesActivity extends AppCompatActivity {
             int sumToAdd = Integer.parseInt(value.toString());
             int newCaloriesAmount = sumToAdd + caloriesAmountInt;
             caloriesAmountInt = newCaloriesAmount;
+            initialCaloriesTiet.setText("");
 
-            Log.d("dupa", String.format("max: %s, text: %s, new: %s", caloriesLimitInt, value.toString(), newCaloriesAmount));
             if (caloriesAmountInt > caloriesLimitInt) {
 
                 Toast.makeText(this, "You exceed caloric demand! Eat less if you want to lose weight", Toast.LENGTH_SHORT).show();
@@ -139,20 +124,21 @@ public class CaloriesActivity extends AppCompatActivity {
     //Functions responsible for changing limits of calories
     private void updateLimit()
     {
+
         caloriesLimitTv.setText((String.format("%s", caloriesLimitInt)));
 
     }
     private void changeLimit()
     {
         Editable value = caloriesLimitTiet.getText();
-
         if(value !=null && !value.toString().isEmpty())
         {
             int limit = Integer.parseInt(value.toString());
             caloriesLimitInt = limit;
             return;
         }
-        caloriesLimitInt = 0;
+            Toast.makeText(this, "This field cannot be empty", Toast.LENGTH_SHORT).show();
+
     }
 
     public void saveDataCaloriesLimit()
@@ -198,16 +184,15 @@ public class CaloriesActivity extends AppCompatActivity {
     {
         caloriesAmountTv.setText(String.valueOf(caloriesAmountInt));
     }
-
-
     public void resetCurrentCalories()
     {
         final SharedPreferences sharedPrefs_1 = getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs_1.edit();
         editor.putString(TEXTCURRENTCALORIES, "0");
-        editor.commit();
+        editor.apply();
         caloriesAmountInt = 0;
         caloriesAmountTv.setText(String.valueOf(caloriesAmountInt));
+        initialCaloriesTiet.setText("");
     }
 
 }

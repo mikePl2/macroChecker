@@ -18,4 +18,6 @@
     <string name="reset_current_calories">Reset</string>
     <string name="caloriesAmount">com.example.myapplication.caloriesamount</string>
     <string name="caloriesLimit">com.example.myapplication.calorieslimit</string>
+
+
 </resources>
