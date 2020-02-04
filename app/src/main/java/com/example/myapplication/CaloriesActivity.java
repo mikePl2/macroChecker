@@ -1,6 +1,7 @@
 package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,6 +37,8 @@ public class CaloriesActivity extends AppCompatActivity {
     public static final String TEXTCURRENTCALORIES = "text";
     public static final String TEXTLIMITCALORIES = "text_1";
 
+
+
     private String SP_LimitOfCalories;
 
 
@@ -52,6 +55,7 @@ public class CaloriesActivity extends AppCompatActivity {
 
 
 
+
         //Edit current calories
         initialCaloriesTiet = findViewById(R.id.initialCaloriesAmountTiet);
         addCaloriesBtn = (Button) findViewById(R.id.add_calories);
@@ -60,7 +64,6 @@ public class CaloriesActivity extends AppCompatActivity {
             public void onClick(View view){
                 addCalories();
                 saveDataCurrentCalories();
-
             }
         });
         caloriesAmountTv = (TextView) findViewById(R.id.currentCalories);
@@ -93,12 +96,7 @@ public class CaloriesActivity extends AppCompatActivity {
         loadDataCurrentCalories();
         updateCurrentCalories();
 
-        setup();
-    }
 
-    private void setup() {
-        // inicjalizujesz wszystko z preferencji oprocz wpisanego
-        // ustawiasz widoki na podstawie wartosci
     }
 
 
@@ -194,5 +192,13 @@ public class CaloriesActivity extends AppCompatActivity {
         caloriesAmountTv.setText(String.valueOf(caloriesAmountInt));
         initialCaloriesTiet.setText("");
     }
+
+
+//    public void getDataAboutCaloriesAmount()
+//    {
+//        Intent intent = new Intent(this, ArchiveOfCaloriesActivity.class);
+//        intent.putExtra("CALORIES_AMOUNT_SESSION", getText("12"));
+//    }
+
 
 }
