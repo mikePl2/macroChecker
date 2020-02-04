@@ -32,10 +32,9 @@ public class CaloriesActivity extends AppCompatActivity {
     public int caloriesAmountInt;
 
     //Constants to Sharred Preferences
-    public static final String SHARED_PREFS_LIMIT = "sharedPrefs";
-    public static final String SHARED_PREFS_CURRENT_CALORIES = "sharedPrefs_1";
-    public static final String TEXTCURRENTCALORIES = "text";
-    public static final String TEXTLIMITCALORIES = "text_1";
+    public static final String SHARED_PREFS_LIMIT_CURRENT = "SpCurrentCaloriesLimitOfCalories";
+    public static final String KEY_CURRENT_CALORIES = "current";
+    public static final String KEY_CALORIES_LIMIT = "limit";
 
 
 
@@ -141,17 +140,17 @@ public class CaloriesActivity extends AppCompatActivity {
 
     public void saveDataCaloriesLimit()
     {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(TEXTLIMITCALORIES, String.valueOf(caloriesLimitInt));
+        editor.putString(KEY_CALORIES_LIMIT, String.valueOf(caloriesLimitInt));
         editor.apply();
 
     }
 
     public void loadDataCaloriesLimit()
     {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT, MODE_PRIVATE);
-        SP_LimitOfCalories = sharedPreferences.getString(TEXTLIMITCALORIES, "0");
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
+        SP_LimitOfCalories = sharedPreferences.getString(KEY_CALORIES_LIMIT, "0");
         caloriesLimitInt = Integer.parseInt(SP_LimitOfCalories);
     }
 
@@ -163,9 +162,9 @@ public class CaloriesActivity extends AppCompatActivity {
 
     public void saveDataCurrentCalories()
     {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(TEXTCURRENTCALORIES, String.valueOf(caloriesAmountInt));
+        editor.putString(KEY_CURRENT_CALORIES, String.valueOf(caloriesAmountInt));
         editor.apply();
 
     }
@@ -173,8 +172,8 @@ public class CaloriesActivity extends AppCompatActivity {
     public void loadDataCurrentCalories()
     {
 
-        SharedPreferences sharedPreferences= getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, MODE_PRIVATE);
-        String currentAmount = sharedPreferences.getString(TEXTCURRENTCALORIES, "0");
+        SharedPreferences sharedPreferences= getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
+        String currentAmount = sharedPreferences.getString(KEY_CURRENT_CALORIES, "0");
         caloriesAmountInt = Integer.parseInt(currentAmount);
     }
 
@@ -184,9 +183,9 @@ public class CaloriesActivity extends AppCompatActivity {
     }
     public void resetCurrentCalories()
     {
-        final SharedPreferences sharedPrefs_1 = getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPrefs_1 = getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs_1.edit();
-        editor.putString(TEXTCURRENTCALORIES, "0");
+        editor.putString(KEY_CURRENT_CALORIES, "0");
         editor.apply();
         caloriesAmountInt = 0;
         caloriesAmountTv.setText(String.valueOf(caloriesAmountInt));

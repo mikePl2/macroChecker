@@ -10,10 +10,17 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class ArchiveOfCaloriesActivity extends AppCompatActivity {
 
-    public static final String SHARED_PREFS_CURRENT_CALORIES = "sharedPrefs_1";
-    public static final String TEXTCURRENTCALORIES = "text";
+    public static final String SHARED_PREFS_LIMIT_CURRENT = "SpCurrentCaloriesLimitOfCalories";
+    public static final String KEY_CURRENT_CALORIES = "current";;
 
 
 
@@ -30,9 +37,15 @@ public class ArchiveOfCaloriesActivity extends AppCompatActivity {
 
     private void showValueOfCalories()
     {
-        SharedPreferences sharedPreferences= getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, MODE_PRIVATE);
-        String currentAmount = sharedPreferences.getString(TEXTCURRENTCALORIES, "0");
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String today = formatter.format(date);
+
+
+        SharedPreferences sharedPreferences= getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
+        String currentAmount = sharedPreferences.getString(KEY_CURRENT_CALORIES, "0");
         viewOfCurrentCaloriesTv = (TextView) findViewById(R.id.archiveViewOfCurrentCaloriesTv);
-        viewOfCurrentCaloriesTv.setText(currentAmount);
+        String DateWithCalories = "That day "+today + " You ate " + currentAmount + " calories";
+        viewOfCurrentCaloriesTv.setText(DateWithCalories);
     }
 }
