@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, ArchiveOfCaloriesActivity.class);
                 startActivity(intent);
                 break;
+
         }
 
     }

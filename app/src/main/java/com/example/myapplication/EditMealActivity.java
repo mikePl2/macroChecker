@@ -138,7 +138,7 @@ public class EditMealActivity extends AppCompatActivity {
     }
     public void createFile()
     {
-        File file = new File(path+"/"+System.currentTimeMillis()+".txt");
+        File file = new File(path+"/"+"meals"+System.currentTimeMillis()+".txt");
         FileOutputStream fOut;
         OutputStreamWriter myOutWriter;
         try

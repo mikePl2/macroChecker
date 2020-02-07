@@ -4,12 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.nio.Buffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class CaloriesActivity extends AppCompatActivity {
@@ -41,9 +52,8 @@ public class CaloriesActivity extends AppCompatActivity {
     private String SP_LimitOfCalories;
 
 
-    private int mCaloriesToAdd;
-    private int mCaloriesTotal;
-    private int mCaloriesLimit;
+    //PATH TO ARCHIVE
+    private String path = Environment.getExternalStorageDirectory().toString() + "/MacroChecker";
 
 
 
@@ -63,6 +73,7 @@ public class CaloriesActivity extends AppCompatActivity {
             public void onClick(View view){
                 addCalories();
                 saveDataCurrentCalories();
+                createArchiveFile();
             }
         });
         caloriesAmountTv = (TextView) findViewById(R.id.currentCalories);
@@ -193,11 +204,33 @@ public class CaloriesActivity extends AppCompatActivity {
     }
 
 
-//    public void getDataAboutCaloriesAmount()
-//    {
-//        Intent intent = new Intent(this, ArchiveOfCaloriesActivity.class);
-//        intent.putExtra("CALORIES_AMOUNT_SESSION", getText("12"));
-//    }
+    public void createArchiveFile()
+    {
 
+        //Date for file
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        String today = formatter.format(date);
+        File file = new File(path + "/" + "archiveCalories" + today +  ".txt");
+
+        //Date inside file to archive
+        SimpleDateFormat formatter_archive = new SimpleDateFormat("dd/MM/yyyy");
+        String today_archive = formatter_archive.format(date);
+
+
+
+        String dayWithCalories = "That day: " +  today_archive + " You ate: " + caloriesAmountInt + "calories";
+
+        try {
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(dayWithCalories);
+            bw.close();
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Problem z zapisem pliku", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
