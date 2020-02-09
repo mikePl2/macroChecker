@@ -2,8 +2,13 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,32 +16,45 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-public class MealsActivity extends AppCompatActivity {
+public class ArchiveOfCaloriesActivity extends AppCompatActivity {
 
-    private TextView meals;
+
     private String path = Environment.getExternalStorageDirectory().toString() + "/MacroChecker/";
     private String interlude = "\n\n\n----------------------------------------------------------------------------------\n\n\n";
+
+
+
+    private TextView viewOfCurrentCaloriesTv;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meals);
-        meals = (TextView) findViewById(R.id.mealsTV);
-        meals.setText(getAllContent());
+        setContentView(R.layout.activity_archive_of_calories);
+        viewOfCurrentCaloriesTv = (TextView) findViewById(R.id.archiveViewOfCurrentCaloriesTv);
+        viewOfCurrentCaloriesTv.setText(getAllContentFromArchive());
     }
 
-    private String getAllContent()
-        {
+    private String getAllContentFromArchive()
+    {
         try{
             File file = new File(path);
             String[] paths = file.list(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String filename) {
-                    return filename.startsWith("meals");
+                    return filename.startsWith("archive");
                 }
             });
             StringBuilder sb = new StringBuilder();
@@ -54,6 +72,4 @@ public class MealsActivity extends AppCompatActivity {
         }
 
     }
-
-
 }

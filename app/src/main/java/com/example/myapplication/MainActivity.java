@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, CoachActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.arvhiveOfCaloriesBtn:
+                intent = new Intent(MainActivity.this, ArchiveOfCaloriesActivity.class);
+                startActivity(intent);
+                break;
+
         }
 
     }

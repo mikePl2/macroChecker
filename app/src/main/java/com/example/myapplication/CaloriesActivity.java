@@ -1,14 +1,26 @@
 package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.nio.Buffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class CaloriesActivity extends AppCompatActivity {
@@ -31,17 +43,17 @@ public class CaloriesActivity extends AppCompatActivity {
     public int caloriesAmountInt;
 
     //Constants to Sharred Preferences
-    public static final String SHARED_PREFS_LIMIT = "sharedPrefs";
-    public static final String SHARED_PREFS_CURRENT_CALORIES = "sharedPrefs_1";
-    public static final String TEXTCURRENTCALORIES = "text";
-    public static final String TEXTLIMITCALORIES = "text_1";
+    public static final String SHARED_PREFS_LIMIT_CURRENT = "SpCurrentCaloriesLimitOfCalories";
+    public static final String KEY_CURRENT_CALORIES = "current";
+    public static final String KEY_CALORIES_LIMIT = "limit";
+
+
 
     private String SP_LimitOfCalories;
 
 
-    private int mCaloriesToAdd;
-    private int mCaloriesTotal;
-    private int mCaloriesLimit;
+    //PATH TO ARCHIVE
+    private String path = Environment.getExternalStorageDirectory().toString() + "/MacroChecker";
 
 
 
@@ -49,6 +61,7 @@ public class CaloriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calories);
+
 
 
 
@@ -60,7 +73,7 @@ public class CaloriesActivity extends AppCompatActivity {
             public void onClick(View view){
                 addCalories();
                 saveDataCurrentCalories();
-
+                createArchiveFile();
             }
         });
         caloriesAmountTv = (TextView) findViewById(R.id.currentCalories);
@@ -93,12 +106,7 @@ public class CaloriesActivity extends AppCompatActivity {
         loadDataCurrentCalories();
         updateCurrentCalories();
 
-        setup();
-    }
 
-    private void setup() {
-        // inicjalizujesz wszystko z preferencji oprocz wpisanego
-        // ustawiasz widoki na podstawie wartosci
     }
 
 
@@ -143,17 +151,17 @@ public class CaloriesActivity extends AppCompatActivity {
 
     public void saveDataCaloriesLimit()
     {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(TEXTLIMITCALORIES, String.valueOf(caloriesLimitInt));
+        editor.putString(KEY_CALORIES_LIMIT, String.valueOf(caloriesLimitInt));
         editor.apply();
 
     }
 
     public void loadDataCaloriesLimit()
     {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT, MODE_PRIVATE);
-        SP_LimitOfCalories = sharedPreferences.getString(TEXTLIMITCALORIES, "0");
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
+        SP_LimitOfCalories = sharedPreferences.getString(KEY_CALORIES_LIMIT, "0");
         caloriesLimitInt = Integer.parseInt(SP_LimitOfCalories);
     }
 
@@ -165,9 +173,9 @@ public class CaloriesActivity extends AppCompatActivity {
 
     public void saveDataCurrentCalories()
     {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(TEXTCURRENTCALORIES, String.valueOf(caloriesAmountInt));
+        editor.putString(KEY_CURRENT_CALORIES, String.valueOf(caloriesAmountInt));
         editor.apply();
 
     }
@@ -175,8 +183,8 @@ public class CaloriesActivity extends AppCompatActivity {
     public void loadDataCurrentCalories()
     {
 
-        SharedPreferences sharedPreferences= getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, MODE_PRIVATE);
-        String currentAmount = sharedPreferences.getString(TEXTCURRENTCALORIES, "0");
+        SharedPreferences sharedPreferences= getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, MODE_PRIVATE);
+        String currentAmount = sharedPreferences.getString(KEY_CURRENT_CALORIES, "0");
         caloriesAmountInt = Integer.parseInt(currentAmount);
     }
 
@@ -186,13 +194,43 @@ public class CaloriesActivity extends AppCompatActivity {
     }
     public void resetCurrentCalories()
     {
-        final SharedPreferences sharedPrefs_1 = getSharedPreferences(SHARED_PREFS_CURRENT_CALORIES, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPrefs_1 = getSharedPreferences(SHARED_PREFS_LIMIT_CURRENT, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs_1.edit();
-        editor.putString(TEXTCURRENTCALORIES, "0");
+        editor.putString(KEY_CURRENT_CALORIES, "0");
         editor.apply();
         caloriesAmountInt = 0;
         caloriesAmountTv.setText(String.valueOf(caloriesAmountInt));
         initialCaloriesTiet.setText("");
+    }
+
+
+    public void createArchiveFile()
+    {
+
+        //Date for file
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+        String today = formatter.format(date);
+        File file = new File(path + "/" + "archiveCalories" + today +  ".txt");
+
+        //Date inside file to archive
+        SimpleDateFormat formatter_archive = new SimpleDateFormat("dd/MM/yyyy");
+        String today_archive = formatter_archive.format(date);
+
+
+
+        String dayWithCalories = "That day: " +  today_archive + " You ate: " + caloriesAmountInt + "calories";
+
+        try {
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(dayWithCalories);
+            bw.close();
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Problem z zapisem pliku", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
